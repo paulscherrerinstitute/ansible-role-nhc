@@ -2,52 +2,46 @@
 ansible-role-nhc
 =========
 
-Install Node Health Checker https://github.com/mej/nhc
+Install and configure the [LBNL Node Health Checker](https://github.com/mej/nhc)
 
 Requirements
 ------------
 
- - A batch scheduler
- - Internet access to Github
+- A batch scheduler, like SLURM
+- Internet access to Github
 
 Role Variables
 --------------
 
 See defaults/main.yml for a complete list
 
-If nhc_github is set to False it installs it from a pre-configured yum-repo.
-Default is True
+- `nhc_github`: if `False` causes NHC to be installed through system package manager (Default is `True`)
+- `nhc_use_default_checks`: if `True` then all the default checks in `nhc.conf` will not be added, only the ones in `nhc_checks` list.
 
-nhc_github: True
+  ```yaml
+  nhc_use_default_checks: True
 
-If we set nhc_use_default_checks to True - then all the default checks in nhc.conf will not be added. Only the ones in nhc_checks list.
-<pre>
-nhc_use_default_checks: True
+  nhc_checks:
+   - { match: "*", name: "check_reboot_slurm", arguments: "" }
+   - { match: "{gpu[1-19]}", name: "check_hw_ib", arguments: "40" }
+  ```
 
-nhc_checks:
- - { match: "*", name: "check_reboot_slurm", arguments: "" }
- - { match: "{gpu[1-19]}", name: "check_hw_ib", arguments: "40" }
-</pre>
-
-nhc_rm: "slurm" # but can also be whatever else NHC supports like pbs or torque. 
-
-<pre>
-# setting nhc_rm to "" means we don't set the variable at all - autodetection
-nhc_rm: ""
-</pre>
+- `nhc_rm`: which resource manager to configure for, such as `"slurm"`, `"pbs"`, or `"torque"`. Note that setting to `""` (empty string)
+   uses autodetection to determine the resource manager.
 
 Dependencies
 ------------
-
 
 Example Playbook
 ----------------
 
 Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
 
+```yaml
     - hosts: servers
       roles:
          - { role: ansible-role-nhc }
+```
 
 License
 -------
