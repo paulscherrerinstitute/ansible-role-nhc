@@ -1,0 +1,32 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: docker
+platforms:
+  - name: suse_leap_15_3
+    pre_build_image: false
+    image: docker.io/opensuse/leap:15.3
+    privileged: true
+    options:
+      vvv: true
+      sudo: true
+      cgroupns_mode: host
+  - name: rhel8
+    pre_build_image: false
+    image: docker.io/redhat/ubi8-minimal:8.9
+    privileged: true
+    options:
+      vvv: true
+      sudo: true
+      cgroupns_mode: host
+provisioner:
+  name: ansible
+  env:
+    ansible_python_interpreter: /usr/bin/python3
+lint: |
+  set -e
+  yamllint .
+  ansible-lint .
+verifier:
+  name: testinfra

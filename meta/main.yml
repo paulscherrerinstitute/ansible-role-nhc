@@ -1,5 +1,7 @@
 ---
 galaxy_info:
+  role_name: nhc
+  namespace: psi
   author: Johan Guldmyr & HPCE@PSI
   description: Installs NHC - Node Health Checker.
   company: CSC - IT Center for Science Ltd. & Paul Scherrer Institut
