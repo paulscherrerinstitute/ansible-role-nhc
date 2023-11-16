@@ -5,7 +5,7 @@ nhc_version: "1.4.2"
 nhc_rpm_url: "https://github.com/mej/nhc/releases/download/{{ nhc_version }}/lbnl-nhc-{{ nhc_version }}-1.el{{ ansible_distribution_major_version }}.noarch.rpm"
 
 # If False - install from a pre-configured yum repo
-nhc_github: True
+nhc_github: false
 
 nhc_scripts:
  - "healthcheck.nhc"
@@ -14,22 +14,22 @@ nhc_scripts:
 # Variables below are used inside the template for nhc.conf
 nhc_rm: "slurm"
 
-nhc_short_hostname: True
+nhc_short_hostname: true
 
 nhc_hw_swap_free: "1MB"
 nhc_hw_mem_free: "1MB"
-infiniband_available: False
+nhc_infiniband_available: false
 nhc_hw_ib: "56"
 nhc_hw_eth: "em1"
-nhc_hw_mcelog: True
+nhc_hw_mcelog: true
 # By default allow 100 corrected errors/24h
 nhc_mcelog_max_corrected_rate: 100
-nhc_fs_mount_rw_scratch: True
-nhc_fs_mount_rw_home: True
+nhc_fs_mount_rw_scratch: true
+nhc_fs_mount_rw_home: true
 
-gpu: False
+nhc_check_gpu: false
 
-nhc_use_default_checks: True
+nhc_use_default_checks: true
 
 nhc_checks:
  - { match: "*", name: "check_reboot_slurm", arguments: "" }

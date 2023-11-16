@@ -11,11 +11,9 @@
 ###
 ### NHC Configuration Variables
 ###
-{% if nhc_rm is defined %}
-{% if nhc_rm != "" %}
+{% if nhc_rm is defined and (nhc_rm | length) %}
 # Explicitly instruct NHC to assume PBS (TORQUE, PBSPro) is the Resource Manager
    * || export NHC_RM={{ nhc_rm }}
-{% endif %}
 {% endif %}
 
 # Do not mark nodes offline
@@ -34,13 +32,13 @@
 #   * || export MOABHOMEDIR="/opt/moab"
 #   * || export PATH="$MOABHOMEDIR/bin:$PATH"
 
-{% if nhc_short_hostname == true %}
+{% if nhc_short_hostname %}
 # Nodes are called by their short name
 # Without this nhc will try to mark online/offline the full hostname
   * || HOSTNAME="$(hostname -s)"
 {% endif %}
 
-{% if nhc_use_default_checks == true %}
+{% if nhc_use_default_checks %}
 
 {% if nhc_scripts.0 is defined %}
 #######################################################################
@@ -82,7 +80,7 @@
 # Check for some sort of free memory of either type.
    * || check_hw_mem_free {{ nhc_hw_mem_free }}
 
-{% if infiniband_available == true %}
+{% if nhc_infiniband_available %}
 # Checks that there's a FDR IB interface that's ACTIVE and shows LinkUp.
    * || check_hw_ib {{ nhc_hw_ib }}
 {% endif %}
@@ -99,7 +97,7 @@
 # Make sure our RAM is running at the correct bus rate.
 #   * || check_dmi_data_match -t "Memory Device" "*Speed: 1866 MHz"
 
-{% if nhc_hw_mcelog == true %}
+{% if nhc_hw_mcelog %}
 # Check the mcelog daemon for any pending errors.
    * || MCELOG_MAX_CORRECTED_RATE={{ nhc_mcelog_max_corrected_rate }} check_hw_mcelog
 {% endif %}
@@ -148,10 +146,10 @@
 # Validate a couple important accounts in the passwd file.
 #   * || check_file_contents /etc/passwd "/^root:x:0:0:/" "sshd:*"
 
-{% if nhc_fs_mount_rw_scratch == true %}
+{% if nhc_fs_mount_rw_scratch %}
    *  || check_fs_mount_rw /scratch
 {% endif %}
-{% if nhc_fs_mount_rw_home == true %}
+{% if nhc_fs_mount_rw_home %}
    *  || check_fs_mount_rw /home
 {% endif %}
    *  || check_fs_mount_rw /dev/pts '/(none|devpts)/' devpts
@@ -253,7 +251,7 @@
 
 # The check_nvsmi_healthmon check sets node as state "reboot" in slurm
 # So any NHC check which reboots node if state is "reboot" needs to be before check_nvsmi_healthmon (like check_reboot_slurm)
-{% if gpu == true %}
+{% if nhc_check_gpu %}
 # nVidia-smi GPU health checks (requires Tesla Development Kit)
    * || check_nvsmi_healthmon
 {% endif %}

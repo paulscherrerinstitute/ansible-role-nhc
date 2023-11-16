@@ -1,6 +1,13 @@
 ---
 # tasks file for ansible-role-nhc
 #
- - include_tasks: install.yml
-   when: ansible_os_family == "RedHat"
- - import_tasks: configure.yml
+- name: Install NHC for RedHat
+  ansible.builtin.include_tasks: rhel-install.yml
+  when: ansible_os_family == "RedHat"
+
+- name: Install NHC for Suse
+  ansible.builtin.include_tasks: suse-install.yml
+  when: ansible_os_family == "Suse"
+
+- name: Configure NHC
+  ansible.builtin.import_tasks: configure.yml

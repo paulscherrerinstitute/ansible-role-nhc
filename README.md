@@ -15,8 +15,8 @@ Role Variables
 
 See defaults/main.yml for a complete list
 
-- `nhc_github`: if `False` causes NHC to be installed through system package manager (Default is `True`)
-- `nhc_use_default_checks`: if `True` then all the default checks in `nhc.conf` will not be added, only the ones in `nhc_checks` list.
+- `nhc_github`: if `true` causes NHC to be installed through system package manager (Default is `true`)
+- `nhc_use_default_checks`: if `true` then all the default checks in `nhc.conf` will not be added, only the ones in `nhc_checks` list.
 
   ```yaml
   nhc_use_default_checks: True
@@ -27,7 +27,8 @@ See defaults/main.yml for a complete list
   ```
 
 - `nhc_rm`: which resource manager to configure for, such as `"slurm"`, `"pbs"`, or `"torque"`. Note that setting to `""` (empty string)
-   uses autodetection to determine the resource manager.
+   uses autodetection to determine the resource manager (Default is `"slurm"`)
+- `nhc_check_gpu`: add checks for GPUs (Defaults is `false`)
 
 Dependencies
 ------------
