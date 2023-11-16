@@ -4,9 +4,6 @@
 nhc_version: "1.4.2"
 nhc_rpm_url: "https://github.com/mej/nhc/releases/download/{{ nhc_version }}/lbnl-nhc-{{ nhc_version }}-1.el{{ ansible_distribution_major_version }}.noarch.rpm"
 
-# If False - install from a pre-configured yum repo
-nhc_github: false
-
 nhc_scripts:
  - "healthcheck.nhc"
  - "csc_nvidia_smi.nhc"

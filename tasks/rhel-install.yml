@@ -2,39 +2,6 @@
 # tasks file for ansible-role-nhc
 #
 #
-- name: Check if fgci-release7 is installed
-  ansible.builtin.yum:
-    name: fgci-release7
-    state: installed
-  register: reg_nhc_fgci7_installed
-  check_mode: false
-  ignore_errors: true
-
-- name: Install FGCI repo
-  ansible.builtin.yum:
-    name: http://idris.fgi.csc.fi/fgci7/x86_64/fgci/rpms/fgci-release7-1-1.el7.noarch.rpm
-  when:
-    - ansible_distribution_major_version == "7"
-    - reg_nhc_fgci7_installed is failed
-    - not nhc_github
-
-- name: Check if lbnl-nhc-nhc_version is installed
-  ansible.builtin.yum:
-    name: "lbnl-nhc-{{ nhc_version }}"
-    state: installed
-  register: reg_nhc_github_installed
-  check_mode: false
-  ignore_errors: true
-  when: nhc_github
-
 - name: Install NHC from github
   ansible.builtin.yum:
     name: "{{ nhc_rpm_url }}"
-  when:
-    - nhc_github
-    - reg_nhc_github_installed is failed
-
-- name: Install NHC from a yum repo
-  ansible.builtin.yum:
-    name: lbnl-nhc
-  when: not nhc_github

@@ -4,6 +4,11 @@ ansible-role-nhc
 
 Install and configure the [LBNL Node Health Checker](https://github.com/mej/nhc)
 
+This Role has been tested for RHEL8 and SUSE 15.3 and 15.4!
+
+**NOTE** there is an unfortunate version mismatch, 1.4.2 is available on SUSE but not 1.4.3 and on RHEL8 version 1.4.2 is
+no longer available. Therefore this role will install on 1.4.2 on SUSE and 1.4.3 on RHEL8.
+
 Requirements
 ------------
 
@@ -15,7 +20,6 @@ Role Variables
 
 See defaults/main.yml for a complete list
 
-- `nhc_github`: if `true` causes NHC to be installed through system package manager (Default is `true`)
 - `nhc_use_default_checks`: if `true` then all the default checks in `nhc.conf` will not be added, only the ones in `nhc_checks` list.
 
   ```yaml
