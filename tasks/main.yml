@@ -1,17 +1,7 @@
 ---
-# tasks file for ansible-role-nhc
-#
-- name: Check system compatibilities
-  # We have to deal with an unfortunate version missmatch, 1.4.3 isn't available on
-  # SUSE yet, but 1.4.2 isn't available on RHEL8...
-  ansible.builtin.set_fact:
-    skip_config: "{{ nhc_version is version_compare('1.4.3', '<') }}"
-
 - name: Install NHC for RedHat
   ansible.builtin.include_tasks: rhel-install.yml
-  when:
-    - ansible_os_family == "RedHat"
-    - not skip_config
+  when: ansible_os_family == "RedHat"
 
 - name: Install NHC for Suse
   ansible.builtin.include_tasks: suse-install.yml
@@ -19,5 +9,3 @@
 
 - name: Configure NHC
   ansible.builtin.import_tasks: configure.yml
-  when:
-    - not skip_config
