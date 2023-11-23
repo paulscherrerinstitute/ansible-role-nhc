@@ -2,5 +2,9 @@
 - name: Converge
   hosts: all
   gather_facts: true
+  vars:
+    nhc_checks:
+      test_checks:
+        - { match: "*", command: "check_hw_cpuinfo 2 44 88", comment: "Make sure that the right number of CPUs are present"}
   roles:
     - psi.nhc

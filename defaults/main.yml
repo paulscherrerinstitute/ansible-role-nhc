@@ -6,29 +6,42 @@
 nhc_version: "1.4.3"
 nhc_rpm_url: "https://github.com/mej/nhc/releases/download/{{ nhc_version }}/lbnl-nhc-{{ nhc_version }}-1.el{{ ansible_distribution_major_version }}.noarch.rpm"
 
-nhc_scripts:
- - "healthcheck.nhc"
- - "csc_nvidia_smi.nhc"
+#
+# nhc.conf based variables
+#
 
-# Variables below are used inside the template for nhc.conf
 nhc_rm: "slurm"
-
+nhc_mark_offline: true
+nhc_timeout: 120
+nhc_check_all: true
 nhc_short_hostname: true
+nhc_debug: false
 
-nhc_hw_swap_free: "1MB"
-nhc_hw_mem_free: "1MB"
-nhc_infiniband_available: false
-nhc_hw_ib: "56"
-nhc_hw_eth: "em1"
-nhc_hw_mcelog: true
-# By default allow 100 corrected errors/24h
-nhc_mcelog_max_corrected_rate: 100
-nhc_fs_mount_rw_scratch: true
-nhc_fs_mount_rw_home: true
+#
+# Dictionaries of nhc.conf setting and checks
+#
 
-nhc_check_gpu: false
+# Sane defaults are encoded here, these can be override directly or
+# or by using the above role variables
+nhc_settings:
+  NHC_RM: "{{ nhc_rm }}"
+  MARK_OFFLINE: "{{ nhc_mark_offline | int }}"
+  TIMEOUT: "{{ nhc_timeout }}"
+  NHC_CHECK_ALL: "{{ nhc_check_all | int }}"
+  HOSTNAME: "{{ '\"$HOSTNAME_S\"' if nhc_short_hostname else '\"$(hostname)\"' }}"
+  DEBUG: "{{ nhc_debug | int }}"
 
-nhc_use_default_checks: true
+# By default NHC can be setup with the following checks
 
-nhc_checks:
- - { match: "*", name: "check_reboot_slurm", arguments: "" }
+# this is where user checks can be encoded in the same format as the default
+# ones above
+nhc_checks: []
+  # slurm_checks:
+  #   - { match: "*", command: "check_reboot_slurm", comment: "Reboot if slurmd shows as DRAIN" }
+
+# here a list of scripts can be given which will be inserted into the NHC script
+# directory. NOTE you can use `playbook_dir` or `role_path` to specify the files
+# and these will be processed using the ansible templating engine.
+nhc_scripts: []
+  # - "csc_nvidia_smi.nhc"
+  # - "healthcheck.nhc"

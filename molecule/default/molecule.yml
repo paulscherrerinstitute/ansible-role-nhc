@@ -30,3 +30,5 @@ lint: |
   ansible-lint .
 verifier:
   name: testinfra
+  options:
+    s: true
