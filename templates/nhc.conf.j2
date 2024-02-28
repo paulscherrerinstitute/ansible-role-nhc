@@ -21,9 +21,11 @@
 ### {{ nhc_group | replace('_', ' ') | capitalize }}
 ###
 {% for nhc_check in nhc_group_checks %}
-   {% if nhc_check.comment | length %}
+   {% if nhc_check.comment is defined %}
    # {{ nhc_check.comment }}
    {% endif %}
+   {% if nhc_check.match is defined and nhc_check.command is defined %}
    {{ nhc_check.match }} || {{ nhc_check.command }}
+   {% endif %}
 {% endfor %}
 {% endfor %}
