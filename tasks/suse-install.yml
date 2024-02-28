@@ -1,10 +1,5 @@
 ---
 # setup repo, using official SUSE NHC repo
-- name: Ensure NHC OBS repo is setup
-  community.general.zypper_repository:
-    repo: "https://download.opensuse.org/repositories/network:/cluster/openSUSE_Leap_{{ ansible_distribution_version }}/network:cluster.repo"
-    runrefresh: true
-
 - name: Install NHC from a OBS repo
   community.general.zypper:
     name: "warewulf-nhc={{ nhc_version }}"
