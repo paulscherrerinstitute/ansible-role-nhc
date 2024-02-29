@@ -1,5 +1,16 @@
 ---
-# setup repo, using official SUSE NHC repo
+- name: Check if warewulf-nhc is already available
+  ansible.builtin.command:
+    cmd: zypper search warewulf-nhc={{ nhc_version }}
+  register: __suse_install_zypper_search_cmd
+
+# setup repo if package is unavailable, using official SUSE NHC repo
+- name: Install NHC OBS repo if warewulf-nhc is not already available
+  community.general.zypper_repository:
+    repo: "https://download.opensuse.org/repositories/network:/cluster/openSUSE_Leap_{{ ansible_distribution_version }}/network:cluster.repo"
+    runrefresh: true
+  when: __suse_install_zypper_search_cmd.rc != 0
+
 - name: Install NHC from a OBS repo
   community.general.zypper:
     name: "warewulf-nhc={{ nhc_version }}"
