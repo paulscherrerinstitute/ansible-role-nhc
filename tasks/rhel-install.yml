@@ -2,7 +2,13 @@
 # tasks file for ansible-role-nhc
 #
 #
+- name: Message unsupported RHEL version
+  ansible.builtin.fail:
+    msg: RHEL version >= 9 do not have NHC package
+  when: ansible_distribution_major_version | int >= 9
+
 - name: Install NHC from github
   ansible.builtin.yum:
     name: "{{ nhc_rpm_url }}"
     disable_gpg_check: true
+  become: true
