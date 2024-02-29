@@ -5,7 +5,7 @@
 - name: Message unsupported RHEL version
   ansible.builtin.fail:
     msg: RHEL version >= 9 do not have NHC package
-  when: ansible_distribution_major_version >= 9
+  when: ansible_distribution_major_version | int >= 9
 
 - name: Install NHC from github
   ansible.builtin.yum:
