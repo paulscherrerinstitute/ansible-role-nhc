@@ -3,9 +3,10 @@
 # package version
 #
 
-nhc_package_name: "lbnl-nhc"
 nhc_version: "1.4.3"
-nhc_repo_suse: "https://download.opensuse.org/repositories/network:/cluster/{{ ansible_distribution_version }}/network:cluster.repo"
+nhc_suse_package_name: "warewulf-nhc"
+nhc_suse_repo: "https://download.opensuse.org/repositories/network:/cluster/{{ ansible_distribution_version }}/network:cluster.repo"
+nhc_suse_repo_enable: false
 nhc_rpm_url: "https://github.com/mej/nhc/releases/download/{{ nhc_version }}/lbnl-nhc-{{ nhc_version }}-1.el{{ ansible_distribution_major_version }}.noarch.rpm"
 
 #
