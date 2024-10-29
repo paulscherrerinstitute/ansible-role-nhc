@@ -1,0 +1,15 @@
+{{ ansible_managed | ansible.builtin.comment }}
+
+{% for key, value in nhc_sysconfig.settings.items() %}
+{% if nhc_sysconfig.comments is defined %}
+{% if nhc_sysconfig.comments.get(key) is not none %}
+
+# {{ nhc_sysconfig.comments.get(key) | capitalize }}
+{% endif %}
+{% endif %}
+{% if value.__class__.__name__ != 'list' %}
+{{ key }}="{{ value }}"
+{% else %}
+{{ key }}="{{ value | join(' ') }}"
+{% endif %}
+{% endfor %}

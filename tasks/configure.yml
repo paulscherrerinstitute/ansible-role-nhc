@@ -8,6 +8,13 @@
     backup: true
     mode: "0644"
 
+- name: Set /etc/sysconfing/nhc
+  when: nhc_sysconfig is defined
+  ansible.builtin.template:
+    src: config.j2
+    dest: /etc/sysconfig/nhc
+    mode: "644"
+
 - name: Configure nhc scripts
   ansible.builtin.template:
     src: "{{ item }}"
